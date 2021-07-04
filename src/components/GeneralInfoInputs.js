@@ -1,49 +1,21 @@
-import React, { Component } from 'react';
 import './sass/inputs.scss';
 
-export default class GeneralInfoInputs extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-    };
-  }
+const GeneralInfoInputs = (props) => {
+  const handleChange = (event) => {
+    const currentValue = event.target.value;
+    const id = event.target.id;
 
-  handleChange = (event) => {
-    if (event.target.type === 'tel' && event.target.value.match(/^\d{0,14}$/)) {
-      this.setState({
-        value: event.target.value,
-      });
-    } else if (
-      event.target.type === 'text' &&
-      event.target.value.match(/^[a-zA-Z ]{0,30}$/)
-    ) {
-      this.setState({
-        value: event.target.value,
-      });
-    } else if (
-      event.target.type === 'email' &&
-      event.target.value.match(/^[A-Za-z@0-9.]{0,70}$/)
-    ) {
-      this.setState({
-        value: event.target.value,
-      });
-    }
+    props.infoChange(currentValue, id);
   };
 
-  render() {
-    const { type, name } = this.props;
+  const { name, id, state } = props;
 
-    return (
-      <div className="general-input">
-        <h3>{name}:</h3>
-        <input
-          id={name}
-          type={type}
-          value={this.state.value}
-          onChange={this.handleChange}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="general-input">
+      <h3>{name}:</h3>
+      <input id={id} value={state.generalInfo[id]} onChange={handleChange} />
+    </div>
+  );
+};
+
+export default GeneralInfoInputs;
