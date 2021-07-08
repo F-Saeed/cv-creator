@@ -3,6 +3,7 @@ import uniqid from 'uniqid';
 import GeneralInfo from './components/GeneralInfo';
 import Education from './components/Education';
 import Experience from './components/Experience';
+import Preview from './components/Preview';
 import './components/sass/App.scss';
 import './components/sass/mainForm.scss';
 import './components/sass/buttons.scss';
@@ -12,22 +13,28 @@ class App extends Component {
     super();
 
     this.state = {
-      generalInfo: { name: '', email: '', telephone: '' },
+      generalInfo: {
+        name: '',
+        email: '',
+        telephone: '',
+        github: '',
+        linkedin: '',
+      },
       education: {
+        id: uniqid(),
         schoolName: '',
         major: '',
         start: '',
         end: '',
-        id: uniqid(),
       },
       educationData: [],
       experience: {
+        id: uniqid(),
         companyName: '',
         position: '',
         from: '',
         to: '',
         tasks: '',
-        id: uniqid(),
       },
       experienceData: [],
     };
@@ -41,11 +48,25 @@ class App extends Component {
       this.setState({
         generalInfo: tempInfo,
       });
-    } else if (id === 'name' && currentValue.match(/^[a-zA-Z ]{0,30}$/)) {
+    } else if (id === 'name' && currentValue.match(/^[a-zA-Z ]{0,25}$/)) {
       this.setState({
         generalInfo: tempInfo,
       });
     } else if (id === 'email' && currentValue.match(/^[A-Za-z@0-9.]{0,70}$/)) {
+      this.setState({
+        generalInfo: tempInfo,
+      });
+    } else if (
+      id === 'github' &&
+      currentValue.match(/^[A-Za-z0-9./-]{0,70}$/)
+    ) {
+      this.setState({
+        generalInfo: tempInfo,
+      });
+    } else if (
+      id === 'linkedin' &&
+      currentValue.match(/^[A-Za-z0-9./-]{0,70}$/)
+    ) {
       this.setState({
         generalInfo: tempInfo,
       });
@@ -56,11 +77,11 @@ class App extends Component {
     const tempInfo = { ...this.state.education };
     tempInfo[id] = currentValue;
 
-    if (id === 'schoolName' && currentValue.match(/^[a-zA-Z ]{0,70}$/)) {
+    if (id === 'schoolName' && currentValue.match(/^[a-zA-Z- ]{0,70}$/)) {
       this.setState({
         education: tempInfo,
       });
-    } else if (id === 'major' && currentValue.match(/^[a-zA-Z ]{0,70}$/)) {
+    } else if (id === 'major' && currentValue.match(/^[a-zA-Z- ]{0,70}$/)) {
       this.setState({
         education: tempInfo,
       });
@@ -93,11 +114,11 @@ class App extends Component {
     const tempInfo = { ...this.state.experience };
     tempInfo[id] = currentValue;
 
-    if (id === 'companyName' && currentValue.match(/^[a-zA-Z ]{0,70}$/)) {
+    if (id === 'companyName' && currentValue.match(/^[a-zA-Z- ]{0,70}$/)) {
       this.setState({
         experience: tempInfo,
       });
-    } else if (id === 'position' && currentValue.match(/^[a-zA-Z ]{0,70}$/)) {
+    } else if (id === 'position' && currentValue.match(/^[a-zA-Z- ]{0,70}$/)) {
       this.setState({
         experience: tempInfo,
       });
@@ -131,6 +152,20 @@ class App extends Component {
     });
   };
 
+  onDeleteEdu = (eduID) => {
+    this.setState({
+      educationData: this.state.educationData.filter((edu) => edu.id !== eduID),
+    });
+  };
+
+  onDeleteExp = (expID) => {
+    this.setState({
+      experienceData: this.state.experienceData.filter(
+        (exp) => exp.id !== expID
+      ),
+    });
+  };
+
   render() {
     const state = this.state;
 
@@ -150,11 +185,11 @@ class App extends Component {
             submitExp={this.onExpSubmit}
           />
         </div>
-        <div className="preview">
-          {state.experienceData.map((info) => {
-            return <h2>{info.companyName}</h2>;
-          })}
-        </div>
+        <Preview
+          state={state}
+          deleteEdu={this.onDeleteEdu}
+          deleteExp={this.onDeleteExp}
+        />
       </div>
     );
   }

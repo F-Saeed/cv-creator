@@ -24,6 +24,18 @@ const GeneralInfo = (props) => {
         infoChange={infoChange}
         state={state}
       />
+      <GeneralInfoInputs
+        name="LinkedIn"
+        id="linkedin"
+        infoChange={infoChange}
+        state={state}
+      />
+      <GeneralInfoInputs
+        name="Github"
+        id="github"
+        infoChange={infoChange}
+        state={state}
+      />
     </section>
   );
 };
