@@ -88,14 +88,18 @@ const Preview = (props) => {
           </a>
         </div>
       </header>
-      <section className="section">
-        <h2>Education</h2>
-        {education}
-      </section>
-      <section className="section">
-        <h2>Experience</h2>
-        {experience}
-      </section>
+      {state.educationData.length ? (
+        <section className="section">
+          <h2>Education</h2>
+          {education}
+        </section>
+      ) : null}
+      {state.experienceData.length ? (
+        <section className="section">
+          <h2>Experience</h2>
+          {experience}
+        </section>
+      ) : null}
     </div>
   );
 };
